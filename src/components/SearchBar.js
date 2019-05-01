@@ -8,25 +8,25 @@ class SearchBar extends Component {
     
     constructor(props){
         super(props);
-        this.state = {selectedVersion: "itemdb_rs", selectedCategory: "", term: ''};
+        this.state = {selectedVersion: "itemdb_rs", selectedCategory: "1", term: ''};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     
     handleSubmit(event){
         event.preventDefault();
 
-        let url = BASE + BASE_URL + 'm=' + this.state.selectedVersion + '/api/catalogue/items.json?category=' + this.state.selectedCategory;
+        let url = BASE + BASE_URL + 'm=' + this.state.selectedVersion + '/api/catalogue/category.json?category=' + this.state.selectedCategory;
 
-        axios.get(url ,{
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            params :{
-                alpha: this.state.term.toLowerCase()[0],
-                page: 1
+        let data = fetch(url)
+        .then(response => {
+            if(response.ok){
+                return response.json();
             }
-        });
+        })
 
+        data.then(response => {
+            console.log(response);
+        })
 
     }
 
