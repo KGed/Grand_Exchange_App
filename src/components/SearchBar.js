@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+const BASE = `https://cors-anywhere.herokuapp.com/`
 const BASE_URL = "http://services.runescape.com/"
 
 class SearchBar extends Component {
@@ -10,11 +11,11 @@ class SearchBar extends Component {
         this.state = {selectedVersion: "itemdb_rs", selectedCategory: "", term: ''};
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
+    
     handleSubmit(event){
         event.preventDefault();
 
-        let url = BASE_URL + 'm=' + this.state.selectedVersion + '/api/catalogue/items.json?category=' + this.state.selectedCategory;
+        let url = BASE + BASE_URL + 'm=' + this.state.selectedVersion + '/api/catalogue/items.json?category=' + this.state.selectedCategory;
 
         axios.get(url ,{
             headers: {
