@@ -8,7 +8,24 @@
     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "test:watch": "npm run test -- --watch",
-    "build": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors"
+    "build": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors",
+    "format-all": "prettier-standard 'src/**/*.js'"
+  },
+  "lint-staged": {
+    "linters": {
+      "**/*.js": [
+        "prettier-standard",
+        "git add"
+      ]
+    },
+    "ignore": [
+      "**/build/*.js"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +42,8 @@
     "axios": "^0.18.0",
     "babel": "^6.23.0",
     "babel-preset-stage-1": "^6.1.18",
+    "husky": "^2.2.0",
+    "lint-staged": "^8.1.6",
     "lodash": "^4.17.11",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
