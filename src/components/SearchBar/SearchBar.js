@@ -1,50 +1,10 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 
-const BASE = `https://cors-anywhere.herokuapp.com/`
-const BASE_URL = 'http://services.runescape.com/'
-const CATEGORIES = [
-  'Miscellaneous',
-  'Ammo',
-  'Arrows',
-  'Bolts',
-  'Construction Materials',
-  'Construction Projects',
-  'Cooking Ingredients',
-  'Costumes',
-  'Crafting Materials',
-  'Familiars',
-  'Farming Produce',
-  'Fletching Materials',
-  'Food and Drink',
-  'Herblore Materials',
-  'Hunting Equipment',
-  'Hunting Produce',
-  'Jewellery',
-  'Mage Armour',
-  'Mage Weapons',
-  'Melee Armour- Low Level',
-  'Melee Armour Mid-Level',
-  'Melee Armour - High Level',
-  'Melee Weapons - Low Level',
-  'Melee Weapons - Mid Level',
-  'Melee Weapons - High Level',
-  'Mining and Smithing',
-  'Potions',
-  'Prayer Armour',
-  'Prayer Materials',
-  'Range Armour',
-  'Range Weapons',
-  'Runecrafting',
-  'Runes, Spells, and Teleports',
-  'Seeds',
-  'Summoning Scrolls',
-  'Tools and Containers',
-  'Woodcutting product',
-  'Pocket Items'
-]
+import { SearchBarContainer } from './SearchBarStyles'
 
-class SearchBar extends Component {
+import { CATEGORIES, BASE, BASE_URL } from '../Constants/apiConstants'
+
+export class SearchBar extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -97,7 +57,7 @@ class SearchBar extends Component {
     }
 
     return (
-      <div>
+      <SearchBarContainer>
         <form className='search-bar' onSubmit={this.handleSubmit}>
           <select
             name={'version-selector'}
@@ -123,9 +83,7 @@ class SearchBar extends Component {
           />
           <button type='submit'>Search</button>
         </form>
-      </div>
+      </SearchBarContainer>
     )
   }
 }
-
-export default SearchBar
