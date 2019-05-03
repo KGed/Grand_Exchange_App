@@ -14,10 +14,9 @@ class SearchBar extends Component {
     constructor(props){
         super(props);
         this.state = {selectedVersion: "itemdb_rs", selectedCategory: "1", term: '', results: [], numOfResults: 0, selectedNumOfResults: 25};
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
     
-    handleSubmit(event){
+    handleSubmit = event =>{
         event.preventDefault();
 
 
@@ -30,37 +29,17 @@ class SearchBar extends Component {
                 return response.json();
             }
         }).then(response => {
-            this.setState({results: response.items, numOfResults: response.total})
-            console.log(response)
+            this.props.handleSearch(response);
         })   
     }
 
     render() {
-        // generate table
-        let rows = []
-        for(let item of this.state.results){
-            let itemID = item.id;
-            let cell = []
-            let img = <td key={"img" + itemID}><img src={item.icon_large}></img></td>
-            cell.push(img)
-            cell.push(<td key={"name" + itemID}>{item.name}</td>)
-
-            if(item.current.price[item.current.price.length-1] == 'k'){
-                cell.push(<td key={"price" + itemID}>{item.current.price}</td>)
-            }else{
-                cell.push(<td key={"price" + itemID}>{ item.current.price + "gp"}</td>)
-            }
-
-            
-            cell.push(<td key={"description" + itemID}>{item.description}</td>)
-            rows.push(<tr key={itemID}>{cell}</tr>);
-        }
-
+       
         // generate category list
         let categoryOptions = []
         for(let i = 0; i < CATEGORIES.length; i++){
             let cell = []
-            cell.push(<option key={i} value={i + 1}>{CATEGORIES[i]}</option>)
+            cell.push(<option key={i} value={i}>{CATEGORIES[i]}</option>)
             categoryOptions.push(cell)
         }
         
@@ -82,14 +61,6 @@ class SearchBar extends Component {
                     >
                        {categoryOptions}
                     </select>
-                    <select
-                        name={"resultsAmount-selector"}
-                        value={this.state.selectedNumOfResults}
-                        onChange={e => this.setState({selectedNumOfResults: e.target.value})}
-                    >
-                        <option value={25}>25</option>
-                        <option value={50}>50</option>
-                    </select>
                     <input
                         name={"search-bar"} 
                         placeholder="Search the Grand Exchange" 
@@ -99,17 +70,6 @@ class SearchBar extends Component {
                     />
                     <button type="submit">Search</button>
                 </form>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>Icon</th>
-                            <th>Item</th>
-                            <th>Price</th>
-                            <th>Description</th>
-                        </tr>
-                        {rows}
-                    </tbody>
-                </table>
             </div> 
         );
     }
