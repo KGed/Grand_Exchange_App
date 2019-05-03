@@ -1,8 +1,8 @@
-const path = require('path');
+const path = require('path')
 
 module.exports = {
   entry: {
-    app: ['./src/index.js']
+    App: ['./src/index.js']
   },
   output: {
     filename: 'bundle.js',
@@ -22,5 +22,5 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx']
-  },
-};
+  }
+}

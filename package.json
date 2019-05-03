@@ -5,10 +5,9 @@
   "main": "index.js",
   "repository": "git@github.com:StephenGrider/ReduxSimpleStarter.git",
   "scripts": {
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
-    "test:watch": "npm run test -- --watch",
+    "dev": "webpack-dev-server --hot --inline",
     "build": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors",
+    "format": "fuzzy_format(){ loc=$(find . -name $1); echo $loc; prettier-standard  echo $loc; }; fuzzy_format",
     "format-all": "prettier-standard 'src/**/*.js'"
   },
   "lint-staged": {
@@ -45,6 +44,7 @@
     "husky": "^2.2.0",
     "lint-staged": "^8.1.6",
     "lodash": "^4.17.11",
+    "prettier-standard": "^9.1.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.2",
