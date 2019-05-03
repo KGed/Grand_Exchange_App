@@ -1,9 +1,13 @@
 {
-  "name": "redux-simple-starter",
+  "name": "Kegs-Grand-Exchange-App",
   "version": "1.0.0",
-  "description": "Simple starter package for Redux with React and Babel support",
+  "description": "Front end for Keg's Grand Exchange App.",
   "main": "index.js",
-  "repository": "git@github.com:StephenGrider/ReduxSimpleStarter.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KGed/Grand_Exchange_App"
+  },
+  "homepage": "https://github.com/KGed/Grand_Exchange_App",
   "scripts": {
     "dev": "webpack-dev-server --hot --inline",
     "build": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors",
