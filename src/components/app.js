@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 
-import SearchBar from './SearchBar'
-import ResultsTable from './ResultsTable'
+import { SearchBar } from './SearchBar/SearchBar'
+import { ResultsTable } from './ResultsTable/ResultsTable'
+
+import { AppContainer } from './AppStyles'
 
 export default class App extends Component {
   constructor (props) {
@@ -15,14 +17,13 @@ export default class App extends Component {
 
   render () {
     return (
-      <div>
-        <div>React simple starter</div>
+      <AppContainer>
         <SearchBar handleSearch={this.handleSearch} />
         <ResultsTable
           searchResults={this.state.searchResults}
           resultsTotal={this.state.resultsTotal}
         />
-      </div>
+      </AppContainer>
     )
   }
 }
