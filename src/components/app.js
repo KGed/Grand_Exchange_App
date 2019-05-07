@@ -12,7 +12,7 @@ export default class App extends Component {
   }
 
   handleSearch = data => {
-    this.setState({ searchResults: data.items, resultsTotal: data.total })
+    this.setState({ searchResults: data, resultsTotal: data.length })
   }
 
   render () {

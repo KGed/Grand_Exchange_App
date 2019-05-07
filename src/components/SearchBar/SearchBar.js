@@ -2,7 +2,12 @@ import React, { Component } from 'react'
 
 import { SearchBarContainer } from './SearchBarStyles'
 
-import { CATEGORIES, BASE, BASE_URL } from '../Constants/apiConstants'
+import { CATEGORIES } from '../Constants/apiConstants'
+
+import {
+  getAllResultsFromCategoryByAlpha,
+  filterResults
+} from '../../data-management/apiWrapper'
 
 export class SearchBar extends Component {
   constructor (props) {
@@ -13,34 +18,24 @@ export class SearchBar extends Component {
       term: '',
       results: [],
       numOfResults: 0,
-      selectedNumOfResults: 25
+      selectedNumOfResults: 25,
+      getAllResults: getAllResultsFromCategoryByAlpha()
     }
   }
 
   handleSubmit = event => {
     event.preventDefault()
 
-    let item = this.state.term.toLowerCase()
-    let url =
-      BASE +
-      BASE_URL +
-      'm=' +
-      this.state.selectedVersion +
-      '/api/catalogue/items.json?category=' +
-      this.state.selectedCategory +
-      '&alpha=' +
-      item[0] +
-      '&page=1'
+    let results = this.state.getAllResults(
+      this.state.selectedCategory,
+      this.state.term.toLowerCase()[0]
+    )
 
-    fetch(url)
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        }
-      })
-      .then(response => {
-        this.props.handleSearch(response)
-      })
+    results.then(data => {
+      let filt = filterResults(data, this.state.term)
+      console.log(filt)
+      this.props.handleSearch(filt)
+    })
   }
 
   render () {

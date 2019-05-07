@@ -41,7 +41,8 @@ export class ResultsTable extends Component {
               </TableData>
               <TableData width={20}>{item.name}</TableData>
               <TableData width={20}>
-                {item.current.price[item.current.price.length - 1] === 'k'
+                {item.current.price[item.current.price.length - 1] === 'k' ||
+                item.current.price[item.current.price.length - 1] === 'm'
                   ? item.current.price
                   : `${item.current.price}gp`}
               </TableData>
@@ -49,7 +50,6 @@ export class ResultsTable extends Component {
             </TableRow>
           )
         })}
-        <p>Results Returned: {searchResults.length}</p>
       </TableBody>
     )
   }
