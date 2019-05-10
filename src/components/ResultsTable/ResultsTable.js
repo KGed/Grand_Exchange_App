@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import {
   ResultsTableContainer,
@@ -30,7 +31,6 @@ export class ResultsTable extends Component {
 
   renderTableBody = () => {
     const { searchResults } = this.props
-
     return (
       <TableBody>
         {searchResults.map(item => {
@@ -66,3 +66,11 @@ export class ResultsTable extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  searchResults: state.fetch.payload,
+  loading: state.fetch.payload.loading,
+  error: state.fetch.error
+})
+
+export default connect(mapStateToProps)(ResultsTable)

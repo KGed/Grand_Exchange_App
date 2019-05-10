@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 
+import { connect } from 'react-redux'
+
 import { SearchBarContainer } from './SearchBarStyles'
 
 import { CATEGORIES } from '../Constants/apiConstants'
 
-import {
-  getAllResultsFromCategoryByAlpha,
-  filterResults
-} from '../../data-management/apiWrapper'
+import { getFilteredResults } from '../../data-management/apiWrapper'
 
 export class SearchBar extends Component {
   constructor (props) {
@@ -19,23 +18,17 @@ export class SearchBar extends Component {
       results: [],
       numOfResults: 0,
       selectedNumOfResults: 25,
-      getAllResults: getAllResultsFromCategoryByAlpha()
+      getAllResults: getFilteredResults(this.props.dispatch)
     }
   }
 
   handleSubmit = event => {
     event.preventDefault()
-
-    let results = this.state.getAllResults(
+    this.state.getAllResults(
       this.state.selectedCategory,
-      this.state.term.toLowerCase()[0]
+      this.state.term.toLowerCase()[0],
+      this.state.term
     )
-
-    results.then(data => {
-      let filt = filterResults(data, this.state.term)
-      console.log(filt)
-      this.props.handleSearch(filt)
-    })
   }
 
   render () {
@@ -82,3 +75,5 @@ export class SearchBar extends Component {
     )
   }
 }
+
+export default connect()(SearchBar)

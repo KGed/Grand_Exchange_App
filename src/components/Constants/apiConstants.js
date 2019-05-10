@@ -41,3 +41,5 @@ export const CATEGORIES = [
 
 export const BASE = `https://cors-anywhere.herokuapp.com/`
 export const BASE_URL = 'http://services.runescape.com/'
+
+export const CATEGORY_PAGE_MAX_LENGTH = 12

@@ -1,9 +1,15 @@
-const fetch = require('node-fetch')
+import fetch from 'node-fetch'
+import {
+  fetchApiBegin,
+  fetchApiSuccess,
+  fetchApiFailure
+} from '../actions/fetchActions'
 
 import {
   CATEGORIES,
   BASE,
-  BASE_URL
+  BASE_URL,
+  CATEGORY_PAGE_MAX_LENGTH
 } from '../components/Constants/apiConstants'
 
 /*
@@ -11,12 +17,16 @@ import {
     Params:     url = string
     Purpose:    using the node-fetch module, verify the response is ok and then return the promise for a json response.
 */
-const fetchFromAPI = url => {
-  return fetch(BASE + url).then(response => {
-    if (response.ok) {
-      return response.json()
-    }
-  })
+const fetchFromAPI = async url => {
+  let data = await fetch(BASE + url)
+    .then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+    })
+    .then(json => json)
+
+  return data
 }
 
 /*
@@ -41,40 +51,51 @@ const getCatalogueByAlpha = (category, alpha, page) => {
   return fetchFromAPI(url)
 }
 
-export const getAllResultsFromCategoryByAlpha = () => {
-  let cache = {}
+export const getAllResultsFromCategoryByAlpha = async (category, alpha) => {
+  // determine number of items in a category.
+  let itemsInCategory = await getCatalogueByCategory(0)
+  itemsInCategory = itemsInCategory.alpha.filter(item => {
+    return item.letter == alpha
+  })[0].items
 
-  return async (category, alpha) => {
-    if (cache[category] == undefined) {
-      // determine number of items in a category.
-      let itemsInCategory = await getCatalogueByCategory(0)
-
-      if (itemsInCategory == undefined) {
-      }
-      itemsInCategory = itemsInCategory.alpha.filter(item => {
-        return item.letter == alpha
-      })[0].items
-
-      let searchResults = []
-      for (let i = 1; i <= itemsInCategory % 12; i++) {
-        let res = await getCatalogueByAlpha(category, alpha, i)
-        searchResults = [...searchResults, ...res.items]
-      }
-
-      cache[category] = {}
-      cache[category][alpha] = searchResults
-
-      return searchResults
-    } else {
-      return cache[category][alpha]
-    }
+  let searchResults = []
+  for (let i = 1; i <= itemsInCategory % CATEGORY_PAGE_MAX_LENGTH; i++) {
+    let res = await getCatalogueByAlpha(category, alpha, i)
+    searchResults = [...searchResults, ...res.items]
   }
+
+  return searchResults
 }
 
 export const filterResults = (results, term) => {
-  return results.filter(item => {
+  let res = results.filter(item => {
     if (item.name.toLowerCase().includes(term.toLowerCase())) {
       return item
     }
   })
+  return res
+}
+
+export const getFilteredResults = () => {
+  let cache = {}
+
+  return dispatch => {
+    dispatch(fetchApiBegin())
+    return async (category, alpha, searchTerm) => {
+      if (cache[category] == undefined) {
+        return getAllResultsFromCategoryByAlpha(category, alpha)
+          .then(data => {
+            cache[category] = {}
+            cache[category][alpha] = data
+            dispatch(
+              fetchApiSuccess(filterResults(cache[category][alpha], searchTerm))
+            )
+            return data
+          })
+          .catch(error => dispatch(fetchApiFailure(error)))
+      } else {
+        return filterResults(cache[category][alpha], searchTerm)
+      }
+    }
+  }
 }
