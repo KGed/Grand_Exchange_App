@@ -18,7 +18,7 @@ export class SearchBar extends Component {
       results: [],
       numOfResults: 0,
       selectedNumOfResults: 25,
-      getAllResults: getFilteredResults(this.props.dispatch)
+      getAllResults: getFilteredResults()
     }
   }
 
@@ -75,5 +75,3 @@ export class SearchBar extends Component {
     )
   }
 }
-
-export default connect()(SearchBar)

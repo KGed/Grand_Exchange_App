@@ -19,10 +19,7 @@ export default class App extends Component {
     return (
       <AppContainer>
         <SearchBar handleSearch={this.handleSearch} />
-        <ResultsTable
-          searchResults={this.state.searchResults}
-          resultsTotal={this.state.resultsTotal}
-        />
+        <ResultsTable />
       </AppContainer>
     )
   }

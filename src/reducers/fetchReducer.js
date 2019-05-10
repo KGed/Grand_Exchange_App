@@ -5,7 +5,7 @@ import {
 } from '../actions/fetchActions'
 
 const initialState = {
-  items: [],
+  searchResults: [],
   loading: false,
   error: null
 }
@@ -13,6 +13,7 @@ const initialState = {
 const fetchReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_API_BEGIN:
+      console.log('Made it to fetch begin')
       return {
         ...state,
         loading: true,
@@ -20,18 +21,19 @@ const fetchReducer = (state = initialState, action) => {
       }
 
     case FETCH_API_SUCCESS:
+      console.log('Made it to fetch success')
       return {
-        ...state,
-        loading: false,
-        data: action.payload
+        searchResults: action.payload,
+        loading: true,
+        error: null
       }
 
     case FETCH_API_FAILURE:
+      console.log('Made it to fetch failure')
       return {
         ...state,
         loading: false,
-        error: action.payload,
-        data: []
+        error: action.payload
       }
 
     default:

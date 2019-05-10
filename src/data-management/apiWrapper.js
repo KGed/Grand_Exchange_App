@@ -12,6 +12,8 @@ import {
   CATEGORY_PAGE_MAX_LENGTH
 } from '../components/Constants/apiConstants'
 
+import store from '../store'
+
 /*
     Function:   fetchFromAPI
     Params:     url = string
@@ -79,23 +81,22 @@ export const filterResults = (results, term) => {
 export const getFilteredResults = () => {
   let cache = {}
 
-  return dispatch => {
-    dispatch(fetchApiBegin())
-    return async (category, alpha, searchTerm) => {
-      if (cache[category] == undefined) {
-        return getAllResultsFromCategoryByAlpha(category, alpha)
-          .then(data => {
-            cache[category] = {}
-            cache[category][alpha] = data
-            dispatch(
-              fetchApiSuccess(filterResults(cache[category][alpha], searchTerm))
-            )
-            return data
-          })
-          .catch(error => dispatch(fetchApiFailure(error)))
-      } else {
-        return filterResults(cache[category][alpha], searchTerm)
-      }
+  return async (category, alpha, searchTerm) => {
+    store.dispatch(fetchApiBegin())
+    if (cache[category] == undefined) {
+      return getAllResultsFromCategoryByAlpha(category, alpha)
+        .then(data => {
+          cache[category] = {}
+          cache[category][alpha] = data
+          store.dispatch(
+            fetchApiSuccess(filterResults(cache[category][alpha], searchTerm))
+          )
+
+          return data
+        })
+        .catch(error => store.dispatch(fetchApiFailure(error)))
+    } else {
+      return filterResults(cache[category][alpha], searchTerm)
     }
   }
 }

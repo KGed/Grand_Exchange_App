@@ -31,6 +31,7 @@ export class ResultsTable extends Component {
 
   renderTableBody = () => {
     const { searchResults } = this.props
+    console.log('inside render table ', this.props.searchResults)
     return (
       <TableBody>
         {searchResults.map(item => {
@@ -68,9 +69,13 @@ export class ResultsTable extends Component {
 }
 
 const mapStateToProps = state => ({
-  searchResults: state.fetch.payload,
-  loading: state.fetch.payload.loading,
-  error: state.fetch.error
+  searchResults: state.fetch.searchResults,
+  loading: state.fetch.loading,
+  error: state.fetch.err
 })
 
 export default connect(mapStateToProps)(ResultsTable)
+
+ResultsTable.defaultProps = {
+  searchResults: []
+}
