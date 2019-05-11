@@ -80,23 +80,24 @@ export const filterResults = (results, term) => {
 
 export const getFilteredResults = () => {
   let cache = {}
-
   return async (category, alpha, searchTerm) => {
     store.dispatch(fetchApiBegin())
-    if (cache[category] == undefined) {
-      return getAllResultsFromCategoryByAlpha(category, alpha)
+    if (cache[category] == undefined || cache[category][alpha] == undefined) {
+      let data = getAllResultsFromCategoryByAlpha(category, alpha)
         .then(data => {
-          cache[category] = {}
+          if (cache[category] == undefined) {
+            cache[category] = {}
+          }
           cache[category][alpha] = data
           store.dispatch(
             fetchApiSuccess(filterResults(cache[category][alpha], searchTerm))
           )
-
-          return data
         })
         .catch(error => store.dispatch(fetchApiFailure(error)))
     } else {
-      return filterResults(cache[category][alpha], searchTerm)
+      store.dispatch(
+        fetchApiSuccess(filterResults(cache[category][alpha], searchTerm))
+      )
     }
   }
 }

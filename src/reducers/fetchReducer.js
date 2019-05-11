@@ -13,7 +13,6 @@ const initialState = {
 const fetchReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_API_BEGIN:
-      console.log('Made it to fetch begin')
       return {
         ...state,
         loading: true,
@@ -21,15 +20,13 @@ const fetchReducer = (state = initialState, action) => {
       }
 
     case FETCH_API_SUCCESS:
-      console.log('Made it to fetch success')
       return {
         searchResults: action.payload,
-        loading: true,
+        loading: false,
         error: null
       }
 
     case FETCH_API_FAILURE:
-      console.log('Made it to fetch failure')
       return {
         ...state,
         loading: false,

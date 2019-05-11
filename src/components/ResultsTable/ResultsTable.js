@@ -31,7 +31,6 @@ export class ResultsTable extends Component {
 
   renderTableBody = () => {
     const { searchResults } = this.props
-    console.log('inside render table ', this.props.searchResults)
     return (
       <TableBody>
         {searchResults.map(item => {
@@ -55,8 +54,16 @@ export class ResultsTable extends Component {
     )
   }
 
+  renderLoading = () => {
+    return <h5>Loading...</h5>
+  }
+
   // Render Function
   render () {
+    if (this.props.loading) {
+      return this.renderLoading()
+    }
+
     return (
       <ResultsTableContainer>
         <Table>
