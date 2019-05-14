@@ -2,6 +2,8 @@ import { createStore, applyMiddleware } from 'redux'
 
 import reducers from './reducers'
 
-const createStoreWithMiddleware = applyMiddleware()(createStore)
+import logger from './middleware/logger'
+
+const createStoreWithMiddleware = applyMiddleware(logger)(createStore)
 
 export default createStoreWithMiddleware(reducers)
