@@ -1,10 +1,7 @@
-Using React-Redux, this application will pull in data from the Runescape API in order to give players access to information in a more presentable way.
+Basic React-Redux Application which grabs data from the Runescape API and presents it to the user in a table.
 
-To use the application,
+To use the application, 
 
-npm start
+use yarn start
 
-then go to localhost:8080 to see the application.
-
--- Currently Under Development --
-
+then go to localhost:8080.
